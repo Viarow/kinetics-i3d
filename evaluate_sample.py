@@ -25,9 +25,9 @@ import i3d
 
 _IMAGE_SIZE = 224
 
-_SAMPLE_VIDEO_FRAMES = 79
+_SAMPLE_VIDEO_FRAMES = 100
 _SAMPLE_PATHS = {
-    'rgb': 'data/v_CricketShot_g04_c01_rgb.npy',
+    'rgb': 'data/test_data.npy',
     'flow': 'data/v_CricketShot_g04_c01_flow.npy',
 }
 

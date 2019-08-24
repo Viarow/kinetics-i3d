@@ -141,9 +141,7 @@ def main(unused_argv):
 
                 results.append(out_predictions)
 
-        print(len(results))
-        print(results[0])
-        print(results[0][63])
+
 
 
 

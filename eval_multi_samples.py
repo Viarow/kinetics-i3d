@@ -10,12 +10,14 @@ import i3d
 from data.load_data import load_data
 import os
 from tqdm import tqdm
+import matplotlib
+import matplotlib.pyplot as plt
 
 _IMAGE_SIZE = 224
 
 _SAMPLE_ROOT_ = '/media/Med_6T2/mmaction/data_tools/kinetics400/rawframes_val/cleaning_shoes'
 
-_SAMPLE_VIDEO_FRAMES = 79
+_SAMPLE_VIDEO_FRAMES = 80
 _SAMPLE_PATHS = {
     'rgb': 'data/v_CricketShot_g04_c01_rgb.npy',
     'flow': 'data/v_CricketShot_g04_c01_flow.npy',
@@ -36,6 +38,29 @@ FLAGS = tf.flags.FLAGS
 
 tf.flags.DEFINE_string('eval_type', 'joint', 'rgb, rgb600, flow, or joint')
 tf.flags.DEFINE_boolean('imagenet_pretrained', True, '')
+
+
+def plot_results(results, ap_num, full_range, grad, variable, class_id):
+    colors = ['lightcoral', 'turquoise', 'yellowgreen', 'slateblue']
+    fig, ax = plt.subplots()
+    ax.set(xlabel='azimuth', ylabel='softmax score',
+        title='Controlled Variable: '+variable)
+    vid_num = len(results)
+    assert (vid_num // ap_num) == (full_range // grad)
+    point_num = vid_num // ap_num
+    x = [x_idx*grad for x_idx in range(0, point_num)]
+    label_list = []
+    for ap_idx in range(0, ap_num):
+        scores = results[ap_idx*point_num : (ap_idx+1)*point_num]
+        y = [scores[i][class_id] for i in range(0, point_num)]
+        plt.plot(x, y, marker='o', color=colors[ap_idx],
+                 linewidth=2, markersize=6)
+        label_list.append('appearance_{:1d}'.format(ap_idx+1))
+    plt.legend(label_list)
+    ax.grid()
+    fig.savefig(variable+'.png')
+    plt.show()
+
 
 def main(unused_argv):
     tf.logging.set_verbosity(tf.logging.INFO)
@@ -115,11 +140,11 @@ def main(unused_argv):
             sample_pool = os.listdir(_SAMPLE_ROOT_)
             sample_pool.sort()
 
-            results = []
+            results = []\
 
             for vid_name in tqdm(sample_pool):
                 rgb_sample = load_data(os.path.join(_SAMPLE_ROOT_, vid_name))
-                tf.logging.info('RGB data loaded, shape=%s', str(rgb_sample.shape))
+                #tf.logging.info('RGB data loaded, shape=%s', str(rgb_sample.shape))
                 feed_dict[rgb_input] = rgb_sample
 
                 # if eval_type in ['flow', 'joint']:
@@ -136,7 +161,14 @@ def main(unused_argv):
                     [model_logits, model_predictions],
                     feed_dict=feed_dict)
 
-                #out_logits = out_logits[0]
+                out_logits = out_logits[0]
                 out_predictions = out_predictions[0]
 
                 results.append(out_predictions)
+
+        plot_results(results, ap_num=3, full_range=360, grad=24, variable='ForTest', class_id=63)
+
+
+if __name__ == '__main__':
+  tf.app.run(main)
+

@@ -136,7 +136,7 @@ def main(unused_argv):
                     [model_logits, model_predictions],
                     feed_dict=feed_dict)
 
-                out_logits = out_logits[0]
+                #out_logits = out_logits[0]
                 out_predictions = out_predictions[0]
 
                 results.append(out_predictions)

@@ -140,18 +140,3 @@ def main(unused_argv):
                 out_predictions = out_predictions[0]
 
                 results.append(out_predictions)
-
-
-
-
-
-if __name__ == '__main__':
-  tf.app.run(main)
-
-
-
-
-
-
-
-

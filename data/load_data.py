@@ -138,7 +138,7 @@ def load_data(dir_path):
 
     sampler = Sampler(num_segments=10, new_length=32, new_step=2, temporal_jitter=False)
     output = sampler(dir_path)
-    #np.save(npy_path, output)
+
     return output
 
 

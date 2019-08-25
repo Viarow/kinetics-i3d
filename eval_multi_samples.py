@@ -12,6 +12,7 @@ import os
 from tqdm import tqdm
 import matplotlib
 import matplotlib.pyplot as plt
+from accuracy import top_k_accuracy
 
 _IMAGE_SIZE = 224
 
@@ -140,7 +141,7 @@ def main(unused_argv):
             sample_pool = os.listdir(_SAMPLE_ROOT_)
             sample_pool.sort()
 
-            results = []\
+            results = []
 
             for vid_name in tqdm(sample_pool):
                 rgb_sample = load_data(os.path.join(_SAMPLE_ROOT_, vid_name))
@@ -166,7 +167,11 @@ def main(unused_argv):
 
                 results.append(out_predictions)
 
-        plot_results(results, ap_num=3, full_range=360, grad=24, variable='ForTest', class_id=63)
+        plot_results(results, ap_num=4, full_range=360, grad=15, variable='ForTest', class_id=260)
+        gt_labels = [260]*len(results)
+        top1, top5 = top_k_accuracy(results, gt_labels, k=(1, 5))
+        print("Top-1 Accuracy = {:.02f}".format(top1 * 100))
+        print("Top-5 Accuracy = {:.02f}".format(top5 * 100))
 
 
 if __name__ == '__main__':

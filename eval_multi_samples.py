@@ -44,7 +44,7 @@ tf.flags.DEFINE_boolean('imagenet_pretrained', True, '')
 def plot_results(results, ap_num, full_range, grad, variable, class_id):
     colors = ['lightcoral', 'turquoise', 'yellowgreen', 'slateblue']
     fig, ax = plt.subplots()
-    ax.set(xlabel='azimuth', ylabel='softmax score',
+    ax.set(xlabel=variable.lower(), ylabel='softmax score',
         title='Controlled Variable: '+variable)
     vid_num = len(results)
     assert (vid_num // ap_num) == (full_range // grad)

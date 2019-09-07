@@ -11,5 +11,5 @@ Kinetics400_UCF101 = [('Archery', 5), ('BenchPress', 19), ('Biking', 22), ('Blow
                       ('PlayingPiano', 241), ('PlayingViolin', 250), ('PoleVault', 253), ('PullUps', 255),
                       ('PushUps', 260), ('Biking', 267), ('HorseRiding', 273), ('Shotput', 298),
                       ('SkateBoarding', 306), ('SkyDiving', 312), ('BreastStroke', 340), ('TaiChi', 346),
-                      ('ThrowDiscus', 358), ('WalkWithDog', 378)]
+                      ('ThrowDiscus', 358), ('WalkingWithDog', 378)]
 

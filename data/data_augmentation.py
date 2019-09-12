@@ -42,21 +42,23 @@ def simple_transform():
     augmenter = aug_dict[args.augmenter]
     old_root = args.old_root
     new_root = args.new_root
-    all_classes = os.listdir(old_root)
-    for c_item in tqdm(all_classes):
-        all_videos = os.listdir(os.path.join(old_root, c_item))
-        for v_item in all_videos:
-            imgs_path = os.path.join(old_root, c_item, v_item)
-            all_imgs = os.listdir(imgs_path)
-            for f_item in all_imgs:
-                image = io.imread(os.path.join(imgs_path, f_item))
-                image_aug = augmenter.augment_image(image)
+    ann_file = open(args.testlist)
+    testlist = ann_file.readlines()
 
-                aug_imgs_path = os.path.join(new_root, c_item, v_item)
-                if not os.path.exists(aug_imgs_path):
-                    os.makedirs(aug_imgs_path)
-                io.imsave(os.path.join(aug_imgs_path, f_item), image_aug)
-            print(v_item + ' Augmented.')
+    for v_item in tqdm(testlist):
+        video_name = v_item.split(' ')[0]
+        imgs_old_path = os.path.join(old_root, video_name)
+        imgs_new_path = os.path.join(new_root, video_name)
+
+        if not os.path.exists(imgs_new_path):
+            os.makedirs(imgs_new_path)
+
+        imgs = os.listdir(imgs_old_path)
+        for f_item in imgs:
+            image = io.imread(os.path.join(imgs_old_path, f_item))
+            image_aug = augmenter.augment_image(image)
+            io.imsave(os.path.join(imgs_new_path, f_item), image_aug)
+
 
 
 

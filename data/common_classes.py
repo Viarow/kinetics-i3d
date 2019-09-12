@@ -13,3 +13,9 @@ Kinetics400_UCF101 = [('Archery', 5), ('BenchPress', 19), ('Biking', 22), ('Blow
                       ('SkateBoarding', 306), ('SkyDiving', 312), ('BreastStroke', 340), ('TaiChi', 346),
                       ('ThrowDiscus', 358), ('WalkingWithDog', 378)]
 
+Kinetics400_HMDB51 = [('brush_hair', 36), ('cartwheel', 45), ('clap', 57), ('dribble', 99),
+                      ('drink', 100), ('hug', 158), ('laugh', 180), ('punch', 258),
+                      ('punch', 259), ('push_up', 260), ('ride_bike', 267), ('ride_horse', 273),
+                      ('situp', 305)]
+
+HMDB51_LEAK = [('kiss', 176), ('shake_hands', 288), ('smoke', 316)]
